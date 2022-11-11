@@ -1,5 +1,6 @@
 export default () => {
     let playerTag = 'PC'
+    
 
     let getPlayerTag = () => playerTag;
 
@@ -9,12 +10,14 @@ export default () => {
     let counterOnFound;
     let counterOnGuess = 0;
     let isGuessing = true;
+    let retrieveData = () => {
+        return [ getPlayerTag(), true ]
+    }
 
     let sendAttack = (gameboard) => {
         let offset = [0, 1]
         let offsetRandomizer;
         let attempt
-        console.log(crrSecuence)
         if (isGuessing || counterOnGuess > 0) {
             while (true) {
                 attempt = gameboard.receiveAttack([_randomInt(10), _randomInt(10)])
@@ -26,16 +29,16 @@ export default () => {
                 isGuessing = false
                 counterOnGuess = 0;
                 crrSecuence = _aiFindConcurrence(gameboard.getRecords())
-                console.log(crrSecuence)
-                counterOnFound = _randomInt(2) + 2
+                counterOnFound = _randomInt(2) + 3
             }
             if (counterOnGuess <= 1) {
-                counterOnFound = _randomInt(2) + 2
+                counterOnFound = _randomInt(2) + 3
             }
             counterOnGuess--
             console.log('guessing')
             return attempt
         } else {
+            console.log('Finding concurrent secuence')
             if (counterOnFound <= 0 || crrSecuence.mostConcurrentLength == 0) {
                 counterOnGuess = _randomInt(2) + 2
                 while (true) {
@@ -48,7 +51,6 @@ export default () => {
                 }
             }
             if (crrSecuence.mostConcurrent[0][0] == crrSecuence.mostConcurrent[1][0] && crrSecuence.mostConcurrent[0][1] == crrSecuence.mostConcurrent[1][1]) {
-                console.log('just one')
                 let offset = [-1, 1]
                 attempt = gameboard.receiveAttack([crrSecuence.mostConcurrent[0][0], crrSecuence.mostConcurrent[0][1] + offset[_randomInt(2)]])
                 if (attempt == "Invalid coordinates" || attempt == "attacked") {
@@ -253,8 +255,7 @@ export default () => {
 
         }
     }
-    console.log(mostConcurrent)
     return { mostConcurrent, mostConcurrentLength }
 }
-return { getPlayerTag, sendAttack }
+return { getPlayerTag, sendAttack, retrieveData }
 }
