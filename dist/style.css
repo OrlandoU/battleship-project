@@ -784,9 +784,6 @@ input {
     box-shadow: rgba(0, 0, 0, 0.17) 0px -5.5px 6.25px 0px inset, rgba(0, 0, 0, 0.15) 0px -9px 7.5px 0px inset, rgba(0, 0, 0, 0.1) 0px -19.25px 10px 0px inset, rgba(0, 0, 0, 0.06) 0px 2px .25px, rgba(0, 0, 0, 0.09) 0px 1px .5px, rgba(0, 0, 0, 0.09) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 16px 8px;
 }
 
-.showMenu .main-options-container {}
-
-
 .options-container{
     position: fixed;
     top: 0;
