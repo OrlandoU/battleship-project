@@ -2,14 +2,29 @@ import displayController from "./displayController";
 import gameboard from './gameboard';
 import player from './player'
 import aiPlayer from "./aiPlayer";
-import ship from "./ship";
 
 export default (() => {
+    let tileSound = document.getElementById('tileSound')
+    let transitionSound = document.getElementById('transitionSound')
+    transitionSound.load()
+    tileSound.load()
     let counter
     let config = {}
     config.isPaused = false
     let timer
     let crrMoves = []
+    window.addEventListener('keydown', e=>{
+        let modal = document.querySelector('.options-container')
+        
+        if(e.key == 'Escape'){
+            if(modal.classList.contains('showMenu')){
+                modal.click()
+            }
+            else{
+                document.querySelector('.options-button').click()
+            }
+        }
+    })
     const retrieveData = () => {
         if(!JSON.parse(localStorage.getItem('config'))) return false
         resetPlayersBoards()
@@ -61,6 +76,7 @@ export default (() => {
         config.isPaused = false
     }
     const playRound = () => {
+        tileSound.cloneNode().play()
         if (config.gameMode == 'pvai') {
             let player1Attempt = config.player1Obj.sendAttack(crrMoves[0], config.player2Board)
             displayController.renderAttempt(player1Attempt, "right-tile")
@@ -80,8 +96,13 @@ export default (() => {
             document.querySelector('.time-container-main').textContent = `${counter}s`
         }
         if (config.player2Board.allShipsSunk() || config.player1Board.allShipsSunk()) {
-            displayController.renderWinner(config)
+            if(config.player2Board.allShipsSunk() && config.player1Board.allShipsSunk()){
+                displayController.renderWinner(config.player1Obj.getPlayerTag(),config.player2Obj.getPlayerTag(), config, true )
+            }else{
+                displayController.renderWinner(config.player1Obj.getPlayerTag(),config.player2Obj.getPlayerTag(), config)
+            }
         }
+
         crrMoves = []
         saveData()
     }
@@ -110,6 +131,7 @@ export default (() => {
 
     const setup = () => {
         //Get Info from DOM 
+        transitionSound.cloneNode().play()
         displayController.displayMenu()
         let continueButton = document.querySelector('.second-slide-menu')
         continueButton.addEventListener('submit', setPlayers)
@@ -155,6 +177,7 @@ export default (() => {
         timer = setInterval(() => {
             if (!config.isPaused) {
                 if (counter <= 0) {
+                    tileSound.cloneNode().play()
                     if (config.gameMode == 'pvai') {
                         let player1Attempt = config.player1Obj.sendRandomAttack(config.player2Board)
                         displayController.renderAttempt(player1Attempt, "right-tile")
@@ -182,13 +205,26 @@ export default (() => {
                     }
                     counter = config.timePerTurn
                 }
-                document.querySelector('.time-container-main').textContent = `${counter}s`
+                let timer = document.querySelector('.time-container-main')
+                timer.textContent = `${counter}s`
+                const timerPulse = [
+                    { boxShadow: '0px 0px 5px orangered', fontSize: '1.4rem' },
+                    { boxShadow: '0px 0px 10px 1px orangered', fontSize: '1.45rem' },
+                    { boxShadow: '0px 0px 5px orangered', fontSize: '1.4rem' },
+                  ];
+
+                const timePerInteration = {
+                    duration: 500,
+                    iterations: 1,
+                }
                 counter--
+                timer.animate(timerPulse, timePerInteration)
             }
         }, 1000)
         saveData()
     }
     const continueMainGame = () => {
+        transitionSound.cloneNode().play()
         retrieveData()
         displayController.displayMainGame(config)
         gameStarted()

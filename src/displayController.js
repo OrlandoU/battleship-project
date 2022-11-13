@@ -2,6 +2,16 @@ import ship from "./ship"
 import mainGame from "./mainGame"
 
 export default (() => {
+    let dropSound = document.getElementById('dropSound')
+    let pauseSound = document.getElementById('pauseSound')
+    let clickSound = document.getElementById('clickSound')
+    let hoverSound = document.getElementById('hoverSound')
+    let transitionSound = document.getElementById('transitionSound')
+    transitionSound.load()
+    dropSound.load()
+    clickSound.load()
+    hoverSound.load()
+    pauseSound.load()
     let main = document.querySelector('main')
 
     let parseToYX = (str) => {
@@ -91,6 +101,7 @@ export default (() => {
 
         let nextButton = document.createElement('button')
         nextButton.type = 'submit'
+        nextButton.addEventListener('click', ()=>clickSound.cloneNode().play())
         nextButton.classList.add('next-button-menu')
         nextButton.textContent = 'Continue'
         let buttonSpan = document.createElement('span')
@@ -114,6 +125,7 @@ export default (() => {
             if (currentTime == 0) {
                 return
             }
+            clickSound.cloneNode().play()
             timeInteractiveButton.animate(animationL, timing)
             currentTime--
             timeSelected.value = timesArray[currentTime]
@@ -122,6 +134,7 @@ export default (() => {
             if (currentTime == 5) {
                 return
             }
+            clickSound.cloneNode().play()
             timeInteractiveButton.animate(animationR, timing)
             currentTime++
             timeSelected.value = timesArray[currentTime]
@@ -130,25 +143,32 @@ export default (() => {
 
 
         //Event listener
+        titleMenu.addEventListener('click', ()=>{
+            transitionSound.cloneNode().play()
+            displayMainMenu()
+        })
         firstSlide.addEventListener('click', () => {
+            clickSound.cloneNode().play()
             firstSlide.classList.remove('show')
             firstSlide.addEventListener('transitionend', () => {
                 secondSlide.classList.add('show')
             })
         })
-        modeLeftSide.addEventListener('mouseover', () => {
+        modeLeftSide.addEventListener('mouseenter', () => {
+            hoverSound.cloneNode().play()
             firstSlide.classList.add('mode-hovered')
             modeLeftSide.classList.add('side-hovered')
         })
-        modeLeftSide.addEventListener('mouseout', () => {
+        modeLeftSide.addEventListener('mouseleave', () => {
             firstSlide.classList.remove('mode-hovered')
             modeLeftSide.classList.remove('side-hovered')
         })
-        modeRightSide.addEventListener('mouseover', () => {
+        modeRightSide.addEventListener('mouseenter', () => {
+            hoverSound.cloneNode().play()
             firstSlide.classList.add('mode-hovered')
             modeRightSide.classList.add('side-hovered')
         })
-        modeRightSide.addEventListener('mouseout', () => {
+        modeRightSide.addEventListener('mouseleave', () => {
             firstSlide.classList.remove('mode-hovered')
             modeRightSide.classList.remove('side-hovered')
         })
@@ -160,9 +180,6 @@ export default (() => {
         modeLeftSide.addEventListener('click', () => {
             player1NameInput.placeholder = 'Player 1 tag'
             player2NameInput.placeholder = 'Player 2 tag'
-        })
-        secondSlide.addEventListener('submit', () => {
-
         })
         //Appending to DOM
         modeLeftSide.appendChild(modeImageL)
@@ -201,9 +218,6 @@ export default (() => {
         let mainTitle = document.createElement('div')
         mainTitle.textContent = 'BATTLESHIP'
         mainTitle.classList.add('title-main')
-        let gameState = document.createElement('div')
-        gameState.textContent = 'Setting Up'
-        gameState.classList.add('game-state-main')
 
         let topBoardContainer = document.createElement('div')
         topBoardContainer.classList.add('top-board-container-main')
@@ -287,10 +301,13 @@ export default (() => {
         //Appending elements to DOM
         populateBoards()
 
+        mainTitle.addEventListener('click', ()=>{
+            transitionSound.cloneNode().play()
+            displayMainMenu()
+        })
 
         mainHeader.appendChild(mainTitle)
-        mainHeader.appendChild(gameState)
-
+        
         topBoardContainer.appendChild(player1Name)
         topBoardContainer.appendChild(timerContainer)
         topBoardContainer.appendChild(player2Name)
@@ -308,6 +325,15 @@ export default (() => {
     }
 
     const addListenersSetup = (config) => {
+        let dropAnimation = [
+            { transform: 'scale3d(1, 1, 1) translateZ(10px)' },
+            { transform: 'scale3d(1.25, 0.75, 1) translateZ(10px)' },
+            { transform: 'scale3d(0.75, 1.25, 1) translateZ(10px)' },
+            { transform: 'scale3d(1.15, 0.85, 1) translateZ(10px)' },
+            { transform: 'scale3d(0.95, 1.05, 1) translateZ(10px)' },
+            { transform: 'scale3d(1.05, 0.95, 1) translateZ(10px)' },
+            { transform: 'scale3d(1, 1, 1) translateZ(10px)' }
+        ]
         let currentSide = 1
         let leftSideContainer = document.querySelector('.left-side-container-main')
         let leftSideShips = document.querySelector('.left-ships-container-main')
@@ -324,6 +350,7 @@ export default (() => {
         readyButton.addEventListener('click', () => {
             if (currentSide == 1) {
                 if (!leftSideShips.hasChildNodes()) {
+                    clickSound.cloneNode().play()
                     if (config.gameMode == 'pvai') {
                         mainGame.gameStarted()
                         displayMainGame(config)
@@ -334,6 +361,7 @@ export default (() => {
                     }
                 }
             } else if (currentSide == 2) {
+                clickSound.cloneNode().play()
                 if (!rightSideShips.hasChildNodes()) {
                     mainGame.gameStarted()
                     displayMainGame(config)
@@ -377,18 +405,21 @@ export default (() => {
                     [attemptCoords, attemptShip] = config.player1Board.setShip(+length, [+ev.currentTarget.dataset.x, +ev.currentTarget.dataset.y], false)
                 }
                 if (Array.isArray(attemptCoords)) {
+                    dropSound.play()
                     let start = parseToYX(attemptCoords[0])
                     let end = parseToYX(attemptCoords[attemptCoords.length - 1])
                     newShipBlock.style.gridArea = `${start[0] + 1} / ${start[1] + 1} / ${end[0] + 2} / ${end[1] + 2}`
                     newShipBlock.addEventListener('click', (e) => {
                         let rotateAttempt = config.player1Board.rotateShip(start, end, +length)
                         if (Array.isArray(rotateAttempt)) {
-                            console.log('Rotated')
+                            console.log('rotated')
+                            dropSound.cloneNode().play()
                             end = rotateAttempt
                             newShipBlock.style.gridArea = `${start[0] + 1} / ${start[1] + 1} / ${end[0] + 2} / ${end[1] + 2}`
                         }
                     })
                     overlay.appendChild(newShipBlock)
+                    newShipBlock.animate(dropAnimation, { duration: 1000, iterations: 1 })
                 }
             })
         })
@@ -427,40 +458,51 @@ export default (() => {
                     [attemptCoords, attemptShip] = config.player2Board.setShip(+length, [+ev.currentTarget.dataset.x, +ev.currentTarget.dataset.y], false)
                 }
                 if (Array.isArray(attemptCoords)) {
+                    dropSound.play()
                     let start = parseToYX(attemptCoords[0])
                     let end = parseToYX(attemptCoords[attemptCoords.length - 1])
                     newShipBlock.style.gridArea = `${start[0] + 1} / ${start[1] + 1} / ${end[0] + 2} / ${end[1] + 2}`
                     newShipBlock.addEventListener('click', (e) => {
                         let rotateAttempt = config.player2Board.rotateShip(start, end, +length)
                         if (Array.isArray(rotateAttempt)) {
-                            console.log('Rotated')
+                            console.log('rotated')
+                            dropSound.cloneNode().play()
                             end = rotateAttempt
                             newShipBlock.style.gridArea = `${start[0] + 1} / ${start[1] + 1} / ${end[0] + 2} / ${end[1] + 2}`
                         }
                     })
                     overlay.appendChild(newShipBlock)
+                    newShipBlock.animate(dropAnimation, { duration: 1000, iterations: 1 })
                 }
             })
         })
     }
     const displayMainGame = async (config) => {
+        transitionSound.cloneNode().play()
         let oldContainer = document.querySelector('.boards-container-main')
-        if(oldContainer){await new Promise((resolve, reject) => {
-            oldContainer.classList.add('blankOut')
-            oldContainer.addEventListener('transitionend', () => {
-                resolve()
+        if (oldContainer) {
+            await new Promise((resolve, reject) => {
+                oldContainer.classList.add('blankOut')
+                oldContainer.addEventListener('transitionend', () => {
+                    resolve()
+                })
             })
-        })}
+        }
         main.innerHTML = ''
         let mainHeader = document.createElement('header')
         mainHeader.classList.add('header-main')
         let mainTitle = document.createElement('div')
         mainTitle.textContent = 'BATTLESHIP'
         mainTitle.classList.add('title-main')
+        mainTitle.addEventListener('click', ()=>{
+            transitionSound.cloneNode().play()
+            displayMainMenu()
+        })
         let optionsButton = document.createElement('img')
         optionsButton.src = './images/settings.png'
         optionsButton.classList.add('options-button')
-        optionsButton.addEventListener('click', ()=>{
+        optionsButton.addEventListener('click', () => {
+            pauseSound.cloneNode().play()
             modal.classList.add('showMenu')
             config.isPaused = true
         })
@@ -472,9 +514,12 @@ export default (() => {
         header.textContent = 'Paused'
         let optionsContainer = document.createElement('div')
         optionsContainer.classList.add('main-options-container')
+        let backToGameContainer = document.createElement('div')
+        backToGameContainer.textContent = 'Back to Game'
         let rematchContainer = document.createElement('div')
         rematchContainer.textContent = 'Rematch'
         rematchContainer.addEventListener('click', (event) => {
+            clickSound.cloneNode().play()
             if (config.gameMode == 'pvai') {
                 displayShipsSetup(true, config)
                 config.player2Board.setRandomShips()
@@ -486,22 +531,36 @@ export default (() => {
             addListenersSetup(config)
         })
         let selectModeContainer = document.createElement('div')
-        selectModeContainer.textContent = 'Back to mode selection'
-        selectModeContainer.addEventListener('click', (event)=>{
+        selectModeContainer.textContent = 'Mode selection'
+        selectModeContainer.addEventListener('click', (event) => {
+            clickSound.cloneNode().play()
             event.stopPropagation()
             mainGame.setup()
         })
         let mainMenu = document.createElement('div')
         mainMenu.textContent = 'Return to Main Menu'
-        mainMenu.addEventListener('click', (event)=>{
+        mainMenu.addEventListener('click', (event) => {
+            clickSound.cloneNode().play()
             event.stopPropagation()
             mainGame.appStart()
         })
-        modal.addEventListener('click', ()=>{
+        modal.addEventListener('click', () => {
+            pauseSound.cloneNode().play()
             modal.classList.remove('showMenu')
             config.isPaused = false
             console.log('Bubbling')
         })
+        backToGameContainer.addEventListener('click', () => {
+            modal.classList.remove('showMenu')
+            config.isPaused = false
+            console.log('Bubbling')
+        })
+        backToGameContainer.addEventListener('mouseenter', ()=>hoverSound.cloneNode().play())
+        rematchContainer.addEventListener('mouseenter', ()=>hoverSound.cloneNode().play())
+        selectModeContainer.addEventListener('mouseenter', ()=>hoverSound.cloneNode().play())
+        mainMenu.addEventListener('mouseenter', ()=>hoverSound.cloneNode().play())
+
+        optionsContainer.appendChild(backToGameContainer)
         optionsContainer.appendChild(rematchContainer)
         optionsContainer.appendChild(selectModeContainer)
         optionsContainer.appendChild(mainMenu)
@@ -549,8 +608,8 @@ export default (() => {
                     leftTile.addEventListener('click', mainGame.saveValidAttempt)
                     leftTile.classList.add('left-tile', 'tile-appear')
                     leftPlayerBoard.appendChild(leftTile)
-                    if(config.player1Records && config.player1Records[i][j]){
-                         leftTile.classList.add(config.player1Records[i][j], 'flip')
+                    if (config.player1Records && config.player1Records[i][j]) {
+                        leftTile.classList.add(config.player1Records[i][j], 'flip')
                     }
 
                     let rightTile = document.createElement('div')
@@ -560,9 +619,9 @@ export default (() => {
                     rightTile.addEventListener('click', mainGame.saveValidAttempt)
                     rightTile.classList.add('right-tile', 'tile-appear')
                     rightPlayerBoard.appendChild(rightTile)
-                    if(config.player2Records && config.player2Records[i][j]){
+                    if (config.player2Records && config.player2Records[i][j]) {
                         rightTile.classList.add(config.player2Records[i][j], 'flip')
-                   }
+                    }
                 }
             }
         }
@@ -629,17 +688,22 @@ export default (() => {
         titleMenu.textContent = "BATTLESHIP"
 
         let optionContainer = document.createElement('div')
+        optionContainer.classList.add('main-menu-options')
 
         let continueOption = document.createElement('div')
-        continueOption.textContent = 'Resume match'
+        continueOption.textContent = 'Resume Match'
         continueOption.addEventListener('click', mainGame.continueMainGame)
 
         let newGameOption = document.createElement('div')
         newGameOption.textContent = 'New Game'
         newGameOption.addEventListener('click', mainGame.setup)
 
-        optionContainer.appendChild(continueOption)
+        if (localStorage.getItem('config')) {
+            optionContainer.appendChild(continueOption)
+            continueOption.classList.add('button-17')
+        }
         optionContainer.appendChild(newGameOption)
+        newGameOption.classList.add('button-17')
 
         main.appendChild(titleMenu)
         main.appendChild(optionContainer)
@@ -651,36 +715,54 @@ export default (() => {
         } else {
             document.querySelector(`.${side}[data-x='${attempt[1]}'][data-y='${attempt[2]}']`).classList.add('hit', 'flip')
         }
+        
     }
 
-    let renderWinner = (config, winner) => {
+    let renderWinner = (winner, looser,config, isDraw = false) => {
+        config.isPaused = true
         let modal = document.createElement('div')
         modal.classList.add('modal-container')
 
         let header = document.createElement('div')
         header.classList.add('modal-header')
+        header.textContent = isDraw ? "It's a Tie" : `${winner}'s Victory!`
         let infoContainer = document.createElement('div')
         infoContainer.classList.add('modal-info-container')
+        infoContainer.textContent = isDraw ? 'Both players\' have been sunk' : `All of ${looser}'s ships have been sunk, Its ${winner}'s Victory`;
         let optionsContainer = document.createElement('div')
         optionsContainer.classList.add('modal-options-container')
 
         let rematchContainer = document.createElement('div')
         rematchContainer.textContent = 'Rematch'
-        rematchContainer.addEventListener('click', () => {
+        rematchContainer.addEventListener('click', (event) => {
+            clickSound.cloneNode().play()
             if (config.gameMode == 'pvai') {
-                displayController.displayShipsSetup(true, config)
+                displayShipsSetup(true, config)
                 config.player2Board.setRandomShips()
             } else {
-                displayController.displayShipsSetup()
+                displayShipsSetup()
             }
-            displayController.addListenersSetup(config)
+            event.stopPropagation()
+            document.querySelector('.time-container-main').textContent = '-'
+            addListenersSetup(config)
         })
         let selectModeContainer = document.createElement('div')
         selectModeContainer.textContent = 'Back to mode selection'
-        selectModeContainer.addEventListener('click', mainGame.setup)
+        selectModeContainer.addEventListener('click', (event)=>{
+            clickSound.cloneNode().play()
+            event.stopPropagation()
+            mainGame.setup()
+        })
         let mainMenu = document.createElement('div')
         mainMenu.textContent = 'Return to Main Menu'
-        mainMenu.addEventListener('click', mainGame.appStart)
+        mainMenu.addEventListener('click', (event) => {
+            clickSound.cloneNode().play()
+            event.stopPropagation()
+            mainGame.appStart()
+        })
+        rematchContainer.addEventListener('mouseenter', ()=>hoverSound.cloneNode().play())
+        selectModeContainer.addEventListener('mouseenter', ()=>hoverSound.cloneNode().play())
+        mainMenu.addEventListener('mouseenter', ()=>hoverSound.cloneNode().play())
 
 
         optionsContainer.appendChild(rematchContainer)

@@ -29,10 +29,10 @@ export default () => {
                 isGuessing = false
                 counterOnGuess = 0;
                 crrSecuence = _aiFindConcurrence(gameboard.getRecords())
-                counterOnFound = _randomInt(2) + 3
+                counterOnFound = _randomInt(2) + 2
             }
             if (counterOnGuess <= 1) {
-                counterOnFound = _randomInt(2) + 3
+                counterOnFound = _randomInt(2) + 2
             }
             counterOnGuess--
             console.log('guessing')
@@ -255,6 +255,7 @@ export default () => {
 
         }
     }
+    console.log(mostConcurrent)
     return { mostConcurrent, mostConcurrentLength }
 }
 return { getPlayerTag, sendAttack, retrieveData }
