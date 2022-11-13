@@ -27,9 +27,11 @@ main {
 }
 
 .title-menu {
-    font-size: 6rem;
+    color: var(--main-blue-color);
+    font-size: 9rem;
     font-family: fantasy;
     padding: 15px;
+    text-shadow: 0px 0px 10px #0000007e;
 }
 
 .dynamic-container {
@@ -75,6 +77,7 @@ main {
     height: 100%;
     overflow: hidden;
     opacity: 0;
+    color: var(--main-blue-color);
     transition: all 700ms 100ms ease-in;
 }
 
@@ -84,6 +87,7 @@ main {
 
 .first-slide-menu img {
     width: clamp(100px, 20vw, 200px);
+    filter: invert(10%) sepia() saturate(10000%) hue-rotate(181deg);
 }
 
 .first-slide-menu {
@@ -111,7 +115,7 @@ main {
 .right-side-mode::after,
 .right-side-mode::before {
     content: '';
-    background-color: black;
+    background-color: var(--main-blue-color);
     position: absolute;
     height: 2px;
     width: 100%;
@@ -131,7 +135,7 @@ main {
 .left-side-mode::after,
 .left-side-mode::before {
     content: '';
-    background-color: black;
+    background-color: var(--main-blue-color);
     position: absolute;
     height: 2px;
     width: 100%;
@@ -155,7 +159,7 @@ main {
     right: auto;
     left: auto;
     height: 50px;
-    background-color: black;
+    background-color: var(--main-blue-color);
     transition: all 700ms;
 }
 
@@ -170,7 +174,7 @@ main {
 
 .side-hovered {
     background-color: rgb(230, 230, 230);
-    color: black;
+    color: var(--main-blue-color)
 }
 
 .mode-hovered::after {
@@ -205,7 +209,7 @@ main {
     width: 2px;
     content: '';
     left: 0;
-    background-color: black;
+    background-color: var(--main-blue-color);
     height: 120%;
     position: absolute;
     margin-left: -4px;
@@ -217,7 +221,7 @@ main {
 .input-container::before {
     width: 102%;
     content: '';
-    background-color: black;
+    background-color: var(--main-blue-color);
     height: 2px;
     top: 0;
     position: absolute;
@@ -237,7 +241,7 @@ main {
 
 .input-container label {
     color: white;
-    background-color: black;
+    background-color: var(--main-blue-color);
     width: 300px;
     padding: 10px;
     display: flex;
@@ -253,7 +257,6 @@ main {
     content: '';
     position: absolute;
     bottom: 0;
-    background-color: var(--bg-second-color);
     left: 94%;
     top: 0;
     width: 40px;
@@ -272,7 +275,6 @@ label~input {
     height: 100%;
     font-weight: 600;
     font-size: 1rem;
-    background-color: var(--bg-second-color);
     transition: all 1s;
     padding: 0;
     border: none;
@@ -297,6 +299,7 @@ label~input:not(:placeholder-shown) {
     font-weight: 600;
     gap: 40px;
     user-select: none;
+    color: var(--main-blue-color);
 }
 
 .selected-time-main {
@@ -305,21 +308,23 @@ label~input:not(:placeholder-shown) {
     border-radius: 4px;
     font-weight: 600;
     border: 2px solid;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.37);
+    box-shadow: 0px 0px 10px var(--main-blue-color);
     transition: all 100ms;
+    color: var(--main-blue-color);
 }
 
 .selected-time-main input {
     width: 25px;
     text-align: center;
     position: relative;
-    background-color: white;
+    background-color: var(--bg-first-color);
     box-shadow: none;
     border: none;
     font-family: inherit;
     font-weight: inherit;
     font: inherit;
     user-select: none;
+    color: var(--main-blue-color);
 }
 
 .selected-time-main img:nth-last-of-type(1) {
@@ -328,7 +333,7 @@ label~input:not(:placeholder-shown) {
 
 .second-slide-menu img {
     width: 20px;
-    background-color: white;
+    background-color: var(--bg-first-color);
     padding: 10px;
     box-sizing: content-box;
 }
@@ -338,24 +343,24 @@ label~input:not(:placeholder-shown) {
     padding: 10px 30px;
     margin-top: 80px;
     position: relative;
-    transition: all 500ms 500ms;
+    transition: all 200ms 500ms;
     border: none;
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     font-family: inherit;
     background-color: transparent;
-
+    color: var(--main-red-color);
 }
 
 .next-button-menu::after,
 .next-button-menu::before {
     content: '';
-    background-color: black;
+    background-color: var(--main-red-color);
     height: 2px;
     width: 100%;
     position: absolute;
     left: 0;
     transform: scaleX(0);
-    transition: transform 1s;
+    transition: transform 500ms;
 }
 
 .next-button-menu::after {
@@ -369,7 +374,7 @@ label~input:not(:placeholder-shown) {
 .next-button-menu span::after,
 .next-button-menu span::before {
     content: '';
-    background-color: black;
+    background-color: var(--main-red-color);
     height: 100%;
     width: 2px;
     position: absolute;
@@ -392,7 +397,7 @@ label~input:not(:placeholder-shown) {
 }
 
 .next-button-menu:hover {
-    background-color: black;
+    background-color: var(--main-red-color);
     color: white;
 }
 
@@ -429,6 +434,7 @@ input {
 
 .title-main {
     font-size: 2rem;
+    color: var(--main-blue-color);
     font-family: fantasy;
 }
 
@@ -444,6 +450,12 @@ input {
 
 .options-button {
     width: 30px;
+    cursor: pointer;
+    transition: all 500ms;
+}
+
+.options-button:hover {
+    transform: rotateZ(90deg);
 }
 
 .left-ships-container-main {
@@ -457,6 +469,30 @@ input {
 .left-ships-container-main>* {
     background-color: #bb7314;
     border-radius: 3px;
+    transition: 500ms;
+}
+
+.left-ships-container-main>*:hover{
+    cursor: grab;
+    background-color: orange;
+    border-radius: 4px;
+    z-index: 10;
+    transform: translateZ(10px);
+    box-shadow: -14px -8px 20px rgba(0, 0, 0, 0.448);
+}
+
+.right-ships-container-main>*:hover {
+    cursor: grab;
+    background-color: #1496BB;
+    border-radius: 4px;
+    z-index: 10;
+    transform: translateZ(10px);
+    box-shadow: -14px -8px 20px rgba(0, 0, 0, 0.448);
+}
+
+.left-ships-container-main>*:active,
+.right-ships-container-main>*:active {
+    cursor: grabbing;
 }
 
 .right-ships-container-main {
@@ -470,6 +506,7 @@ input {
 .right-ships-container-main>* {
     background-color: #1470bb;
     border-radius: 3px;
+    transition: 500ms;
 }
 
 /* MAIN GAME */
@@ -492,18 +529,22 @@ input {
     width: 200px;
     border-bottom-left-radius: 3px;
     border-top-left-radius: 3px;
+    box-shadow: 0px 0px 10px var(--main-blue-color);
 }
 
 .player2-name-main {
     width: 200px;
     border-bottom-right-radius: 3px;
     border-top-right-radius: 3px;
+    box-shadow: 0px 0px 10px var(--main-blue-color);
+
 }
 
 .time-container-main {
     z-index: 10;
     color: white;
     background-color: var(--main-red-color);
+    box-shadow: 0px 0px 5px orangered;
     padding: 20px;
     width: 75px;
     height: 75px;
@@ -512,6 +553,7 @@ input {
     display: flex;
     justify-content: center;
     align-items: center;
+
 }
 
 .boards-container-main>* {
@@ -547,10 +589,10 @@ input {
     /* border-radius: 2px; */
     position: relative;
     backface-visibility: hidden;
-    transition: 1s;
     transform-style: preserve-3d;
     perspective: 1000px;
 }
+
 
 .right-player-board-main>*::after,
 .left-player-board-main>*::after {
@@ -591,7 +633,8 @@ input {
 }
 
 .flip {
-    transform: rotateY(180deg) translateZ(-30px);
+    transform: rotateY(180deg) translateZ(-30px) !important;
+    transition: all 1s !important;
 }
 
 @keyframes spanBoard {
@@ -672,6 +715,7 @@ input {
     justify-content: center;
     align-items: center;
 }
+
 .hidePC::after {
     position: absolute;
     inset: 0;
@@ -692,6 +736,14 @@ input {
     animation: appear 1s;
 }
 
+.tile-appear:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+    background-color: rgb(166, 166, 166);
+    transition: 200ms;
+}
+
+
 @keyframes appear {
     0% {
         transform: rotateY(0deg);
@@ -705,16 +757,28 @@ input {
 .main-options-container {
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 8px;
 }
-.main-options-header{
-    font-size: 3rem;
+
+.main-options-header {
+    font-size: 8rem;
     font-weight: 600;
+    color: var(--main-blue-color);
 }
+
+.main-options-container>*:hover {
+    cursor: pointer;
+    transform: translateY(-2.5px) scale(1.03);
+    box-shadow: rgba(0, 0, 0, 0.17) 0px -5.5px 6.25px 0px inset, rgba(0, 0, 0, 0.15) 0px -9px 7.5px 0px inset, rgba(0, 0, 0, 0.1) 0px -19.25px 10px 0px inset, rgba(0, 0, 0, 0.06) 0px 2px .25px, rgba(0, 0, 0, 0.09) 0px 1px .5px, rgba(0, 0, 0, 0.09) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 16px 8px, 0px 0px 10px rgba(0, 0, 0, 0.464);
+}
+
 .main-options-container>* {
-    padding: 5px 25px;
+    color: var(--main-blue-color);
+    transition: all 200ms;
+    padding: 5px 40px;
     background-color: white;
     text-align: center;
+    font-size: 1.2rem;
     font-weight: 600;
     border-radius: 4px;
     box-shadow: rgba(0, 0, 0, 0.17) 0px -5.5px 6.25px 0px inset, rgba(0, 0, 0, 0.15) 0px -9px 7.5px 0px inset, rgba(0, 0, 0, 0.1) 0px -19.25px 10px 0px inset, rgba(0, 0, 0, 0.06) 0px 2px .25px, rgba(0, 0, 0, 0.09) 0px 1px .5px, rgba(0, 0, 0, 0.09) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 16px 8px;
@@ -722,7 +786,8 @@ input {
 
 .showMenu .main-options-container {}
 
-.options-container {
+
+.options-container{
     position: fixed;
     top: 0;
     z-index: -1;
@@ -770,4 +835,88 @@ input {
     flex-direction: column;
     position: absolute;
     margin-left: -45px;
+}
+
+
+/* CSS */
+.button-17 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    background-color: var(--bg-first-color);
+    font-weight: 600;
+    color: var(--main-red-color);
+    transition: background-color 500ms, color 250ms, box-shadow 500ms;
+    font-size: 1.5rem;
+}
+.button-17:hover{
+    background-color: var(--main-red-color);
+    color: white;
+    box-shadow: 0px 0px 10px 15px var(--main-red-color);
+    z-index: 100;
+}
+.main-menu-options{
+    width: 400px;
+    overflow: hidden;
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--main-red-color);
+    justify-content: center;
+    align-items: center;
+    border-radius: 100%;
+    border: 2px solid var(--main-red-color);
+    box-shadow: 0px 0px 10px 1px var(--main-red-color);
+    text-shadow: 0px 0px 10px rgba(226, 74, 74, 0.653);
+}
+.modal-container {
+    position: fixed;
+    top: 0;
+    z-index: 10;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.507);
+    backdrop-filter: blur(8px);
+    overflow: hidden;
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.modal-header{
+    font-size: 8rem;
+    font-weight: 600;
+    color: var(--main-red-color);
+    text-shadow: 0px 0px 10px rgb(161, 59, 22);
+}
+.modal-info-container{
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--main-blue-color);
+    text-shadow: 0px 0px 4px #686a6c;
+}
+.modal-options-container{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 40px;
+}
+.modal-options-container>*:hover {
+    cursor: pointer;
+    transform: translateY(-2.5px) scale(1.03);
+    box-shadow: rgba(0, 0, 0, 0.17) 0px -5.5px 6.25px 0px inset, rgba(0, 0, 0, 0.15) 0px -9px 7.5px 0px inset, rgba(0, 0, 0, 0.1) 0px -19.25px 10px 0px inset, rgba(0, 0, 0, 0.06) 0px 2px .25px, rgba(0, 0, 0, 0.09) 0px 1px .5px, rgba(0, 0, 0, 0.09) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 16px 8px, 0px 0px 10px rgba(0, 0, 0, 0.464);
+}
+
+.modal-options-container>* {
+    color: var(--main-blue-color);
+    transition: all 200ms;
+    padding: 5px 40px;
+    background-color: white;
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: 600;
+    border-radius: 4px;
+    box-shadow: rgba(0, 0, 0, 0.17) 0px -5.5px 6.25px 0px inset, rgba(0, 0, 0, 0.15) 0px -9px 7.5px 0px inset, rgba(0, 0, 0, 0.1) 0px -19.25px 10px 0px inset, rgba(0, 0, 0, 0.06) 0px 2px .25px, rgba(0, 0, 0, 0.09) 0px 1px .5px, rgba(0, 0, 0, 0.09) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 16px 8px;
 }
